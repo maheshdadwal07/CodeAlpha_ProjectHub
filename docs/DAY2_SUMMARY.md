@@ -9,6 +9,7 @@
 ## 📦 What We Built Today
 
 ### 1. **Express Server Setup**
+
 - ✅ Initialized Node.js project with ES modules
 - ✅ Configured Express.js with middleware
 - ✅ Setup CORS for frontend communication
@@ -16,12 +17,14 @@
 - ✅ Created health check endpoint
 
 ### 2. **Database Configuration**
+
 - ✅ MongoDB connection setup with Mongoose
 - ✅ Connection event handlers
 - ✅ Environment-based configuration
 - ✅ Error handling for connection failures
 
 ### 3. **User Model**
+
 - ✅ Complete user schema with validation
 - ✅ Password hashing with bcrypt (pre-save hook)
 - ✅ JWT token generation method
@@ -29,6 +32,7 @@
 - ✅ Virtual fields for relationships
 
 ### 4. **Authentication System**
+
 - ✅ **Register** - Create new user with encrypted password
 - ✅ **Login** - Authenticate user with JWT token
 - ✅ **Get Profile** - Get current logged in user
@@ -37,15 +41,18 @@
 - ✅ **Logout** - Logout endpoint
 
 ### 5. **Middleware**
+
 - ✅ **Authentication** - Protect routes with JWT verification
 - ✅ **Error Handler** - Centralized error handling
 - ✅ **Async Handler** - Wrapper for async functions
 
 ### 6. **Utilities**
+
 - ✅ ErrorResponse class for custom errors
 - ✅ Async handler for clean async/await
 
 ### 7. **Documentation**
+
 - ✅ Complete API testing guide
 - ✅ Thunder Client collection
 - ✅ MongoDB installation guide
@@ -98,16 +105,19 @@ server/
 ## 🎯 API Endpoints Implemented
 
 ### Public Routes
+
 - `POST /api/auth/register` - Register new user
 - `POST /api/auth/login` - Login user
 
 ### Protected Routes
+
 - `GET /api/auth/me` - Get current user
 - `PUT /api/auth/updateprofile` - Update profile
 - `PUT /api/auth/updatepassword` - Change password
 - `POST /api/auth/logout` - Logout user
 
 ### System Routes
+
 - `GET /` - Health check
 
 ---
@@ -161,11 +171,14 @@ Deletions: -7 lines
 ## 🚀 How to Test
 
 ### 1. Setup MongoDB
+
 Choose one option:
+
 - **Option A:** Install MongoDB locally
 - **Option B:** Use MongoDB Atlas (recommended)
 
 ### 2. Configure Environment
+
 ```bash
 cd server
 cp .env.example .env
@@ -173,19 +186,23 @@ cp .env.example .env
 ```
 
 ### 3. Install Dependencies
+
 ```bash
 npm install
 ```
 
 ### 4. Start Server
+
 ```bash
 npm run dev
 ```
 
 ### 5. Test Endpoints
+
 Use Thunder Client, Postman, or REST Client:
 
 **Register User:**
+
 ```http
 POST http://localhost:5000/api/auth/register
 Content-Type: application/json
@@ -198,6 +215,7 @@ Content-Type: application/json
 ```
 
 **Login:**
+
 ```http
 POST http://localhost:5000/api/auth/login
 Content-Type: application/json
@@ -209,6 +227,7 @@ Content-Type: application/json
 ```
 
 **Get Profile (with token):**
+
 ```http
 GET http://localhost:5000/api/auth/me
 Authorization: Bearer <your_token>
@@ -241,6 +260,7 @@ Authorization: Bearer <your_token>
 ## 🔜 Next Steps (Day 3)
 
 Tomorrow we'll build:
+
 - 📊 **Project Model** - Create, read, update, delete projects
 - ✅ **Task Model** - Full task management system
 - 💬 **Comment Model** - Comment on tasks
@@ -265,6 +285,7 @@ Tomorrow we'll build:
 ## 🏆 Achievement Unlocked
 
 ✅ Backend Foundation Complete!
+
 - Authentication System: Working
 - Database Connection: Connected
 - API Endpoints: Tested

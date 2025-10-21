@@ -1,0 +1,60 @@
+### Health Check
+GET http://localhost:5000/
+
+###
+
+### Register New User
+POST http://localhost:5000/api/auth/register
+Content-Type: application/json
+
+{
+  "name": "Mahesh Dadwal",
+  "email": "mahesh@projecthub.com",
+  "password": "password123"
+}
+
+###
+
+### Login User
+POST http://localhost:5000/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "mahesh@projecthub.com",
+  "password": "password123"
+}
+
+###
+
+### Get Current User (Replace token after login)
+GET http://localhost:5000/api/auth/me
+Authorization: Bearer YOUR_TOKEN_HERE
+
+###
+
+### Update Profile
+PUT http://localhost:5000/api/auth/updateprofile
+Content-Type: application/json
+Authorization: Bearer YOUR_TOKEN_HERE
+
+{
+  "name": "Mahesh Dadwal Updated"
+}
+
+###
+
+### Update Password
+PUT http://localhost:5000/api/auth/updatepassword
+Content-Type: application/json
+Authorization: Bearer YOUR_TOKEN_HERE
+
+{
+  "currentPassword": "password123",
+  "newPassword": "newpassword456"
+}
+
+###
+
+### Logout
+POST http://localhost:5000/api/auth/logout
+Authorization: Bearer YOUR_TOKEN_HERE

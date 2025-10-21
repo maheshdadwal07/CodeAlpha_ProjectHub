@@ -9,6 +9,7 @@ A full-stack project management application similar to Trello/Asana, built with 
 ## 📋 Features
 
 ### Core Features
+
 - 🔐 **User Authentication** - Secure JWT-based authentication system
 - 📊 **Project Boards** - Create and manage multiple projects with Kanban-style boards
 - ✅ **Task Management** - Create, assign, and track tasks with different statuses
@@ -17,6 +18,7 @@ A full-stack project management application similar to Trello/Asana, built with 
 - 📱 **Responsive Design** - Works seamlessly on desktop and mobile devices
 
 ### Bonus Features
+
 - 🔔 **Real-time Notifications** - Get instant updates using WebSockets
 - 🔄 **Live Updates** - See changes in real-time as team members work
 - 📈 **Task Progress Tracking** - Visual indicators for project completion
@@ -25,6 +27,7 @@ A full-stack project management application similar to Trello/Asana, built with 
 ## 🛠️ Tech Stack
 
 ### Frontend
+
 - **React.js** - UI library for building interactive interfaces
 - **React Router** - Client-side routing
 - **Redux Toolkit** - State management
@@ -33,6 +36,7 @@ A full-stack project management application similar to Trello/Asana, built with 
 - **Axios** - HTTP client for API requests
 
 ### Backend
+
 - **Node.js** - JavaScript runtime
 - **Express.js** - Web application framework
 - **MongoDB** - NoSQL database
@@ -73,6 +77,7 @@ ProjectHub/
 ## 🗄️ Database Schema
 
 ### User Model
+
 ```javascript
 {
   name: String,
@@ -85,6 +90,7 @@ ProjectHub/
 ```
 
 ### Project Model
+
 ```javascript
 {
   title: String,
@@ -98,6 +104,7 @@ ProjectHub/
 ```
 
 ### Task Model
+
 ```javascript
 {
   title: String,
@@ -115,6 +122,7 @@ ProjectHub/
 ```
 
 ### Comment Model
+
 ```javascript
 {
   content: String,
@@ -126,6 +134,7 @@ ProjectHub/
 ```
 
 ### Notification Model
+
 ```javascript
 {
   user: ObjectId (ref: User),
@@ -140,6 +149,7 @@ ProjectHub/
 ## 🚀 Getting Started
 
 ### Prerequisites
+
 - Node.js (v16 or higher)
 - MongoDB (v6.0 or higher)
 - npm or yarn
@@ -147,18 +157,21 @@ ProjectHub/
 ### Installation
 
 1. **Clone the repository**
+
 ```bash
 git clone https://github.com/maheshdadwal07/CodeAlpha_ProjectHub.git
 cd CodeAlpha_ProjectHub
 ```
 
 2. **Install server dependencies**
+
 ```bash
 cd server
 npm install
 ```
 
 3. **Install client dependencies**
+
 ```bash
 cd ../client
 npm install
@@ -167,6 +180,7 @@ npm install
 4. **Environment Setup**
 
 Create `.env` file in the `server` directory:
+
 ```env
 NODE_ENV=development
 PORT=5000
@@ -177,12 +191,14 @@ CLIENT_URL=http://localhost:5173
 ```
 
 Create `.env` file in the `client` directory:
+
 ```env
 VITE_API_URL=http://localhost:5000/api
 VITE_SOCKET_URL=http://localhost:5000
 ```
 
 5. **Start MongoDB**
+
 ```bash
 # Make sure MongoDB is running
 mongod
@@ -191,30 +207,35 @@ mongod
 6. **Run the application**
 
 Terminal 1 - Start Backend:
+
 ```bash
 cd server
 npm run dev
 ```
 
 Terminal 2 - Start Frontend:
+
 ```bash
 cd client
 npm run dev
 ```
 
 The application will be available at:
+
 - Frontend: `http://localhost:5173`
 - Backend: `http://localhost:5000`
 
 ## 📡 API Endpoints
 
 ### Authentication
+
 - `POST /api/auth/register` - Register new user
 - `POST /api/auth/login` - Login user
 - `GET /api/auth/me` - Get current user
 - `PUT /api/auth/updateprofile` - Update user profile
 
 ### Projects
+
 - `GET /api/projects` - Get all user projects
 - `POST /api/projects` - Create new project
 - `GET /api/projects/:id` - Get project details
@@ -223,6 +244,7 @@ The application will be available at:
 - `POST /api/projects/:id/members` - Add member to project
 
 ### Tasks
+
 - `GET /api/tasks/:projectId` - Get all tasks in a project
 - `POST /api/tasks` - Create new task
 - `GET /api/tasks/:id` - Get task details
@@ -231,12 +253,14 @@ The application will be available at:
 - `PATCH /api/tasks/:id/status` - Update task status
 
 ### Comments
+
 - `GET /api/comments/:taskId` - Get all comments for a task
 - `POST /api/comments` - Create new comment
 - `PUT /api/comments/:id` - Update comment
 - `DELETE /api/comments/:id` - Delete comment
 
 ### Notifications
+
 - `GET /api/notifications` - Get user notifications
 - `PATCH /api/notifications/:id/read` - Mark notification as read
 - `DELETE /api/notifications/:id` - Delete notification
@@ -244,12 +268,14 @@ The application will be available at:
 ## 🔌 WebSocket Events
 
 ### Client Events
+
 - `join_project` - Join a project room
 - `leave_project` - Leave a project room
 - `task_update` - Update task in real-time
 - `new_comment` - Add new comment
 
 ### Server Events
+
 - `task_created` - Notify task creation
 - `task_updated` - Notify task updates
 - `comment_added` - Notify new comments
@@ -274,6 +300,7 @@ This project is licensed under the MIT License.
 ## 👨‍💻 Author
 
 **Mahesh Dadwal**
+
 - GitHub: [@maheshdadwal07](https://github.com/maheshdadwal07)
 
 ## 🙏 Acknowledgments

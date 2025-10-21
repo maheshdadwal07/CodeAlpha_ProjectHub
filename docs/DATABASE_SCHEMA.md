@@ -48,10 +48,12 @@ Stores user account information and authentication details.
 ```
 
 **Indexes:**
+
 - `email`: Unique index for fast lookup
 - `createdAt`: For sorting users by registration date
 
 **Virtual Fields:**
+
 - `projects`: All projects where user is owner or member
 - `assignedTasks`: All tasks assigned to user
 
@@ -101,17 +103,20 @@ Stores project/board information.
 ```
 
 **Indexes:**
+
 - `owner`: For finding projects by owner
 - `members`: For finding projects by member
 - `status`: For filtering by project status
 - Compound index: `{ owner: 1, status: 1 }`
 
 **Virtual Fields:**
+
 - `tasks`: All tasks belonging to this project
 - `taskCount`: Number of tasks in project
 - `completionRate`: Percentage of completed tasks
 
 **Cascade Delete:**
+
 - When a project is deleted, all associated tasks, comments, and notifications are also deleted
 
 ---
@@ -179,17 +184,20 @@ Stores individual task/card information.
 ```
 
 **Indexes:**
+
 - `project`: For finding all tasks in a project
 - `assignedTo`: For finding tasks assigned to a user
 - `status`: For filtering by task status
 - Compound index: `{ project: 1, status: 1, position: 1 }`
 
 **Virtual Fields:**
+
 - `comments`: All comments on this task
 - `commentCount`: Number of comments
 - `isOverdue`: Boolean indicating if task is past due date
 
 **Cascade Delete:**
+
 - When a task is deleted, all associated comments are also deleted
 
 ---
@@ -229,6 +237,7 @@ Stores comments on tasks.
 ```
 
 **Indexes:**
+
 - `task`: For finding all comments on a task
 - `user`: For finding all comments by a user
 - Compound index: `{ task: 1, createdAt: -1 }`
@@ -291,6 +300,7 @@ Stores user notifications for real-time updates.
 ```
 
 **Indexes:**
+
 - `user`: For finding all notifications for a user
 - `read`: For filtering read/unread notifications
 - Compound index: `{ user: 1, read: 1, createdAt: -1 }`
@@ -301,22 +311,27 @@ Stores user notifications for real-time updates.
 ## 🔗 Relationships
 
 ### User ↔ Project
+
 - **One-to-Many**: A user can own multiple projects
 - **Many-to-Many**: A user can be a member of multiple projects
 
 ### Project ↔ Task
+
 - **One-to-Many**: A project can have multiple tasks
 - **Cascade Delete**: Deleting a project deletes all its tasks
 
 ### Task ↔ User
+
 - **Many-to-One**: Multiple tasks can be assigned to one user
 - **Many-to-One**: Multiple tasks can be created by one user
 
 ### Task ↔ Comment
+
 - **One-to-Many**: A task can have multiple comments
 - **Cascade Delete**: Deleting a task deletes all its comments
 
 ### User ↔ Notification
+
 - **One-to-Many**: A user can have multiple notifications
 - **Auto-Delete**: Notifications older than 30 days are automatically deleted
 
@@ -325,49 +340,50 @@ Stores user notifications for real-time updates.
 ## 📈 Example Queries
 
 ### Get User's Projects
+
 ```javascript
 Project.find({
-  $or: [
-    { owner: userId },
-    { members: userId }
-  ]
+  $or: [{ owner: userId }, { members: userId }],
 })
-.populate('owner', 'name email avatar')
-.populate('members', 'name email avatar')
-.sort('-createdAt');
+  .populate("owner", "name email avatar")
+  .populate("members", "name email avatar")
+  .sort("-createdAt");
 ```
 
 ### Get Project Tasks by Status
+
 ```javascript
-Task.find({ 
+Task.find({
   project: projectId,
-  status: 'in-progress'
+  status: "in-progress",
 })
-.populate('assignedTo', 'name email avatar')
-.populate('createdBy', 'name email')
-.sort('position');
+  .populate("assignedTo", "name email avatar")
+  .populate("createdBy", "name email")
+  .sort("position");
 ```
 
 ### Get Task with Comments
+
 ```javascript
 Task.findById(taskId)
-.populate('project', 'title')
-.populate('assignedTo', 'name email avatar')
-.populate({
-  path: 'comments',
-  populate: { path: 'user', select: 'name email avatar' },
-  options: { sort: '-createdAt' }
-});
+  .populate("project", "title")
+  .populate("assignedTo", "name email avatar")
+  .populate({
+    path: "comments",
+    populate: { path: "user", select: "name email avatar" },
+    options: { sort: "-createdAt" },
+  });
 ```
 
 ### Get Unread Notifications
+
 ```javascript
 Notification.find({
   user: userId,
-  read: false
+  read: false,
 })
-.sort('-createdAt')
-.limit(20);
+  .sort("-createdAt")
+  .limit(20);
 ```
 
 ---
@@ -395,6 +411,7 @@ Notification.find({
 ## 📝 Migration Notes
 
 When updating the database schema:
+
 1. Create a backup before migrations
 2. Test migrations in development first
 3. Use transactions for multi-document updates

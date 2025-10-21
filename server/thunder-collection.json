@@ -1,0 +1,122 @@
+{
+  "clientName": "Thunder Client",
+  "collectionName": "ProjectHub API",
+  "collectionId": "projecthub-api",
+  "dateExported": "2025-10-21",
+  "version": "1.0",
+  "folders": [
+    {
+      "id": "auth-folder",
+      "name": "Authentication",
+      "requests": []
+    }
+  ],
+  "requests": [
+    {
+      "id": "health-check",
+      "name": "Health Check",
+      "method": "GET",
+      "url": "http://localhost:5000/",
+      "headers": [],
+      "body": {}
+    },
+    {
+      "id": "register-user",
+      "name": "Register User",
+      "method": "POST",
+      "url": "http://localhost:5000/api/auth/register",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"name\": \"Mahesh Dadwal\",\n  \"email\": \"mahesh@example.com\",\n  \"password\": \"password123\"\n}"
+      }
+    },
+    {
+      "id": "login-user",
+      "name": "Login User",
+      "method": "POST",
+      "url": "http://localhost:5000/api/auth/login",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"email\": \"mahesh@example.com\",\n  \"password\": \"password123\"\n}"
+      }
+    },
+    {
+      "id": "get-me",
+      "name": "Get Current User",
+      "method": "GET",
+      "url": "http://localhost:5000/api/auth/me",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer YOUR_TOKEN_HERE"
+        }
+      ],
+      "body": {}
+    },
+    {
+      "id": "update-profile",
+      "name": "Update Profile",
+      "method": "PUT",
+      "url": "http://localhost:5000/api/auth/updateprofile",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "name": "Authorization",
+          "value": "Bearer YOUR_TOKEN_HERE"
+        }
+      ],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"name\": \"Mahesh Updated\",\n  \"email\": \"maheshupdated@example.com\"\n}"
+      }
+    },
+    {
+      "id": "update-password",
+      "name": "Update Password",
+      "method": "PUT",
+      "url": "http://localhost:5000/api/auth/updatepassword",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "name": "Authorization",
+          "value": "Bearer YOUR_TOKEN_HERE"
+        }
+      ],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"currentPassword\": \"password123\",\n  \"newPassword\": \"newpassword456\"\n}"
+      }
+    },
+    {
+      "id": "logout",
+      "name": "Logout",
+      "method": "POST",
+      "url": "http://localhost:5000/api/auth/logout",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer YOUR_TOKEN_HERE"
+        }
+      ],
+      "body": {}
+    }
+  ]
+}

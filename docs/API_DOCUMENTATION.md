@@ -1,6 +1,7 @@
 # 📚 API Documentation - ProjectHub
 
 ## Base URL
+
 ```
 http://localhost:5000/api
 ```
@@ -8,6 +9,7 @@ http://localhost:5000/api
 ## Authentication
 
 All protected routes require a JWT token in the Authorization header:
+
 ```
 Authorization: Bearer <token>
 ```
@@ -17,11 +19,13 @@ Authorization: Bearer <token>
 ## 🔐 Authentication Endpoints
 
 ### Register User
+
 **POST** `/auth/register`
 
 Register a new user account.
 
 **Request Body:**
+
 ```json
 {
   "name": "John Doe",
@@ -31,6 +35,7 @@ Register a new user account.
 ```
 
 **Response (201):**
+
 ```json
 {
   "success": true,
@@ -45,11 +50,13 @@ Register a new user account.
 ```
 
 ### Login User
+
 **POST** `/auth/login`
 
 Login with email and password.
 
 **Request Body:**
+
 ```json
 {
   "email": "john@example.com",
@@ -58,6 +65,7 @@ Login with email and password.
 ```
 
 **Response (200):**
+
 ```json
 {
   "success": true,
@@ -71,11 +79,13 @@ Login with email and password.
 ```
 
 ### Get Current User
+
 **GET** `/auth/me` 🔒
 
 Get currently logged in user details.
 
 **Response (200):**
+
 ```json
 {
   "success": true,
@@ -89,11 +99,13 @@ Get currently logged in user details.
 ```
 
 ### Update Profile
+
 **PUT** `/auth/updateprofile` 🔒
 
 Update user profile information.
 
 **Request Body:**
+
 ```json
 {
   "name": "John Updated",
@@ -102,6 +114,7 @@ Update user profile information.
 ```
 
 **Response (200):**
+
 ```json
 {
   "success": true,
@@ -118,14 +131,17 @@ Update user profile information.
 ## 📊 Project Endpoints
 
 ### Get All Projects
+
 **GET** `/projects` 🔒
 
 Get all projects where user is owner or member.
 
 **Query Parameters:**
+
 - `status` (optional): Filter by status (active, archived, completed)
 
 **Response (200):**
+
 ```json
 {
   "success": true,
@@ -148,11 +164,13 @@ Get all projects where user is owner or member.
 ```
 
 ### Create Project
+
 **POST** `/projects` 🔒
 
 Create a new project.
 
 **Request Body:**
+
 ```json
 {
   "title": "Mobile App Development",
@@ -162,6 +180,7 @@ Create a new project.
 ```
 
 **Response (201):**
+
 ```json
 {
   "success": true,
@@ -178,11 +197,13 @@ Create a new project.
 ```
 
 ### Get Project Details
+
 **GET** `/projects/:id` 🔒
 
 Get detailed information about a specific project.
 
 **Response (200):**
+
 ```json
 {
   "success": true,
@@ -210,11 +231,13 @@ Get detailed information about a specific project.
 ```
 
 ### Update Project
+
 **PUT** `/projects/:id` 🔒
 
 Update project information (owner only).
 
 **Request Body:**
+
 ```json
 {
   "title": "Website Redesign - Updated",
@@ -224,6 +247,7 @@ Update project information (owner only).
 ```
 
 **Response (200):**
+
 ```json
 {
   "success": true,
@@ -237,11 +261,13 @@ Update project information (owner only).
 ```
 
 ### Delete Project
+
 **DELETE** `/projects/:id` 🔒
 
 Delete a project (owner only).
 
 **Response (200):**
+
 ```json
 {
   "success": true,
@@ -250,11 +276,13 @@ Delete a project (owner only).
 ```
 
 ### Add Member to Project
+
 **POST** `/projects/:id/members` 🔒
 
 Add a member to the project (owner only).
 
 **Request Body:**
+
 ```json
 {
   "email": "newmember@example.com"
@@ -262,15 +290,13 @@ Add a member to the project (owner only).
 ```
 
 **Response (200):**
+
 ```json
 {
   "success": true,
   "project": {
     "_id": "60d5ec49eb801f1a4c8e4f5b",
-    "members": [
-      "60d5ec49eb801f1a4c8e4f5a",
-      "60d5ec49eb801f1a4c8e4f5d"
-    ]
+    "members": ["60d5ec49eb801f1a4c8e4f5a", "60d5ec49eb801f1a4c8e4f5d"]
   }
 }
 ```
@@ -280,15 +306,18 @@ Add a member to the project (owner only).
 ## ✅ Task Endpoints
 
 ### Get All Tasks
+
 **GET** `/tasks/:projectId` 🔒
 
 Get all tasks for a specific project.
 
 **Query Parameters:**
+
 - `status` (optional): Filter by status (todo, in-progress, review, done)
 - `assignedTo` (optional): Filter by assigned user ID
 
 **Response (200):**
+
 ```json
 {
   "success": true,
@@ -318,11 +347,13 @@ Get all tasks for a specific project.
 ```
 
 ### Create Task
+
 **POST** `/tasks` 🔒
 
 Create a new task.
 
 **Request Body:**
+
 ```json
 {
   "title": "Implement user authentication",
@@ -336,6 +367,7 @@ Create a new task.
 ```
 
 **Response (201):**
+
 ```json
 {
   "success": true,
@@ -356,11 +388,13 @@ Create a new task.
 ```
 
 ### Get Task Details
+
 **GET** `/tasks/:id` 🔒
 
 Get detailed information about a specific task.
 
 **Response (200):**
+
 ```json
 {
   "success": true,
@@ -390,11 +424,13 @@ Get detailed information about a specific task.
 ```
 
 ### Update Task
+
 **PUT** `/tasks/:id` 🔒
 
 Update task information.
 
 **Request Body:**
+
 ```json
 {
   "title": "Design homepage mockup - Updated",
@@ -405,6 +441,7 @@ Update task information.
 ```
 
 **Response (200):**
+
 ```json
 {
   "success": true,
@@ -419,11 +456,13 @@ Update task information.
 ```
 
 ### Update Task Status
+
 **PATCH** `/tasks/:id/status` 🔒
 
 Update only the status of a task.
 
 **Request Body:**
+
 ```json
 {
   "status": "done"
@@ -431,6 +470,7 @@ Update only the status of a task.
 ```
 
 **Response (200):**
+
 ```json
 {
   "success": true,
@@ -442,11 +482,13 @@ Update only the status of a task.
 ```
 
 ### Delete Task
+
 **DELETE** `/tasks/:id` 🔒
 
 Delete a task.
 
 **Response (200):**
+
 ```json
 {
   "success": true,
@@ -459,11 +501,13 @@ Delete a task.
 ## 💬 Comment Endpoints
 
 ### Get Task Comments
+
 **GET** `/comments/:taskId` 🔒
 
 Get all comments for a specific task.
 
 **Response (200):**
+
 ```json
 {
   "success": true,
@@ -485,11 +529,13 @@ Get all comments for a specific task.
 ```
 
 ### Create Comment
+
 **POST** `/comments` 🔒
 
 Add a new comment to a task.
 
 **Request Body:**
+
 ```json
 {
   "content": "I've completed the mobile mockup as well.",
@@ -498,6 +544,7 @@ Add a new comment to a task.
 ```
 
 **Response (201):**
+
 ```json
 {
   "success": true,
@@ -512,11 +559,13 @@ Add a new comment to a task.
 ```
 
 ### Update Comment
+
 **PUT** `/comments/:id` 🔒
 
 Update a comment (only by comment creator).
 
 **Request Body:**
+
 ```json
 {
   "content": "Updated comment content"
@@ -524,6 +573,7 @@ Update a comment (only by comment creator).
 ```
 
 **Response (200):**
+
 ```json
 {
   "success": true,
@@ -536,11 +586,13 @@ Update a comment (only by comment creator).
 ```
 
 ### Delete Comment
+
 **DELETE** `/comments/:id` 🔒
 
 Delete a comment (only by comment creator).
 
 **Response (200):**
+
 ```json
 {
   "success": true,
@@ -553,15 +605,18 @@ Delete a comment (only by comment creator).
 ## 🔔 Notification Endpoints
 
 ### Get User Notifications
+
 **GET** `/notifications` 🔒
 
 Get all notifications for the current user.
 
 **Query Parameters:**
+
 - `read` (optional): Filter by read status (true/false)
 - `limit` (optional): Limit number of results (default: 20)
 
 **Response (200):**
+
 ```json
 {
   "success": true,
@@ -581,11 +636,13 @@ Get all notifications for the current user.
 ```
 
 ### Mark Notification as Read
+
 **PATCH** `/notifications/:id/read` 🔒
 
 Mark a notification as read.
 
 **Response (200):**
+
 ```json
 {
   "success": true,
@@ -597,11 +654,13 @@ Mark a notification as read.
 ```
 
 ### Delete Notification
+
 **DELETE** `/notifications/:id` 🔒
 
 Delete a notification.
 
 **Response (200):**
+
 ```json
 {
   "success": true,
@@ -616,6 +675,7 @@ Delete a notification.
 All endpoints may return the following error responses:
 
 ### 400 Bad Request
+
 ```json
 {
   "success": false,
@@ -624,6 +684,7 @@ All endpoints may return the following error responses:
 ```
 
 ### 401 Unauthorized
+
 ```json
 {
   "success": false,
@@ -632,6 +693,7 @@ All endpoints may return the following error responses:
 ```
 
 ### 404 Not Found
+
 ```json
 {
   "success": false,
@@ -640,6 +702,7 @@ All endpoints may return the following error responses:
 ```
 
 ### 500 Server Error
+
 ```json
 {
   "success": false,

@@ -12,6 +12,10 @@ connectDB();
 
 // Route files
 import authRoutes from "./routes/auth.js";
+import projectRoutes from "./routes/projects.js";
+import taskRoutes from "./routes/tasks.js";
+import commentRoutes from "./routes/comments.js";
+import notificationRoutes from "./routes/notifications.js";
 
 // Initialize express app
 const app = express();
@@ -30,6 +34,10 @@ app.use(
 
 // API Routes
 app.use("/api/auth", authRoutes);
+app.use("/api/projects", projectRoutes);
+app.use("/api/tasks", taskRoutes);
+app.use("/api/comments", commentRoutes);
+app.use("/api/notifications", notificationRoutes);
 
 // Health check route
 app.get("/", (req, res) => {

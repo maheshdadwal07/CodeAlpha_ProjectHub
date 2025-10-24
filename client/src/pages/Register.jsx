@@ -31,6 +31,11 @@ const Register = () => {
       return;
     }
 
+    console.log("Registering user:", {
+      name: formData.name,
+      email: formData.email,
+    });
+
     const result = await dispatch(
       register({
         name: formData.name,
@@ -38,6 +43,8 @@ const Register = () => {
         password: formData.password,
       })
     );
+
+    console.log("Registration result:", result);
 
     if (result.type === "auth/register/fulfilled") {
       navigate("/dashboard");

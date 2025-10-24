@@ -4,18 +4,15 @@ import cors from "cors";
 import connectDB from "./config/db.js";
 import errorHandler from "./middleware/error.js";
 
-// Load env vars
-dotenv.config();
-
-// Connect to database
-connectDB();
-
 // Route files
 import authRoutes from "./routes/auth.js";
 import projectRoutes from "./routes/projects.js";
 import taskRoutes from "./routes/tasks.js";
 import commentRoutes from "./routes/comments.js";
 import notificationRoutes from "./routes/notifications.js";
+
+// Load env vars
+dotenv.config();
 
 // Initialize express app
 const app = express();
@@ -59,20 +56,34 @@ app.use((req, res) => {
 // Error handler middleware (must be last)
 app.use(errorHandler);
 
-// Start server
-const PORT = process.env.PORT || 5000;
-const server = app.listen(PORT, () => {
-  console.log("🚀 ===================================");
-  console.log(`🚀 Server running in ${process.env.NODE_ENV} mode`);
-  console.log(`🚀 Server running on port ${PORT}`);
-  console.log("🚀 ===================================");
-});
+// Start server function
+const startServer = async () => {
+  try {
+    // Connect to database first
+    await connectDB();
 
-// Handle unhandled promise rejections
-process.on("unhandledRejection", (err, promise) => {
-  console.log(`❌ Error: ${err.message}`);
-  // Close server & exit process
-  server.close(() => process.exit(1));
-});
+    // Start server
+    const PORT = process.env.PORT || 5000;
+    const server = app.listen(PORT, () => {
+      console.log("🚀 ===================================");
+      console.log(`🚀 Server running in ${process.env.NODE_ENV} mode`);
+      console.log(`🚀 Server running on port ${PORT}`);
+      console.log("🚀 ===================================");
+    });
+
+    // Handle unhandled promise rejections
+    process.on("unhandledRejection", (err, promise) => {
+      console.log(`❌ Error: ${err.message}`);
+      // Close server & exit process
+      server.close(() => process.exit(1));
+    });
+  } catch (error) {
+    console.error("❌ Failed to start server:", error);
+    process.exit(1);
+  }
+};
+
+// Start the server
+startServer();
 
 export default app;

@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
+import { Link } from "react-router-dom";
 import { createProject } from "@/redux/slices/projectSlice";
 import { FiPlus, FiFolder } from "react-icons/fi";
 
@@ -41,33 +42,36 @@ const ProjectList = ({ projects }) => {
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {projects.map((project) => (
-            <div
+            <Link
               key={project._id}
-              className="card hover:shadow-lg transition-shadow"
+              to={`/projects/${project._id}`}
+              className="block"
             >
-              <h3 className="text-xl font-bold text-gray-900 mb-2">
-                {project.title}
-              </h3>
-              <p className="text-gray-600 mb-4">
-                {project.description || "No description"}
-              </p>
-              <div className="flex items-center justify-between">
-                <span className="text-sm text-gray-500">
-                  {project.members?.length || 0} members
-                </span>
-                <span
-                  className={`px-3 py-1 rounded-full text-sm font-medium ${
-                    project.status === "active"
-                      ? "bg-green-100 text-green-800"
-                      : project.status === "completed"
-                      ? "bg-blue-100 text-blue-800"
-                      : "bg-gray-100 text-gray-800"
-                  }`}
-                >
-                  {project.status}
-                </span>
+              <div className="card hover:shadow-lg transition-shadow">
+                <h3 className="text-xl font-bold text-gray-900 mb-2">
+                  {project.title}
+                </h3>
+                <p className="text-gray-600 mb-4">
+                  {project.description || "No description"}
+                </p>
+                <div className="flex items-center justify-between">
+                  <span className="text-sm text-gray-500">
+                    {project.members?.length || 0} members
+                  </span>
+                  <span
+                    className={`px-3 py-1 rounded-full text-sm font-medium ${
+                      project.status === "active"
+                        ? "bg-green-100 text-green-800"
+                        : project.status === "completed"
+                        ? "bg-blue-100 text-blue-800"
+                        : "bg-gray-100 text-gray-800"
+                    }`}
+                  >
+                    {project.status}
+                  </span>
+                </div>
               </div>
-            </div>
+            </Link>
           ))}
         </div>
       )}

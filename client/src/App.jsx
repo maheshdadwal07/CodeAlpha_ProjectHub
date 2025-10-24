@@ -7,6 +7,7 @@ import { getMe } from "@/redux/slices/authSlice";
 import Login from "@/pages/Login";
 import Register from "@/pages/Register";
 import Dashboard from "@/pages/Dashboard";
+import ProjectBoard from "@/pages/ProjectBoard";
 
 // Components
 import ProtectedRoute from "@/components/auth/ProtectedRoute";
@@ -40,6 +41,14 @@ function App() {
         element={
           <ProtectedRoute>
             <Dashboard />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/projects/:id"
+        element={
+          <ProtectedRoute>
+            <ProjectBoard />
           </ProtectedRoute>
         }
       />

@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { createProject } from "@/redux/slices/projectSlice";
-import { FiPlus, FiFolder } from "react-icons/fi";
+import { FiPlus, FiFolder, FiUsers, FiX } from "react-icons/fi";
 
 const ProjectList = ({ projects }) => {
   const dispatch = useDispatch();
@@ -22,7 +22,7 @@ const ProjectList = ({ projects }) => {
         <h2 className="text-2xl font-bold text-gray-900">Your Projects</h2>
         <button
           onClick={() => setShowModal(true)}
-          className="btn btn-primary flex items-center space-x-2"
+          className="btn btn-primary flex items-center space-x-2 transform hover:scale-105 transition-transform shadow-lg"
         >
           <FiPlus />
           <span>New Project</span>
@@ -30,14 +30,23 @@ const ProjectList = ({ projects }) => {
       </div>
 
       {projects.length === 0 ? (
-        <div className="card text-center py-12">
-          <FiFolder className="mx-auto text-6xl text-gray-300 mb-4" />
-          <h3 className="text-xl font-medium text-gray-600 mb-2">
+        <div className="card text-center py-16 animate-fade-in">
+          <div className="inline-block p-6 bg-gray-100 rounded-full mb-4">
+            <FiFolder className="text-6xl text-gray-400" />
+          </div>
+          <h3 className="text-2xl font-semibold text-gray-700 mb-2">
             No projects yet
           </h3>
-          <p className="text-gray-500">
+          <p className="text-gray-500 mb-6">
             Create your first project to get started
           </p>
+          <button
+            onClick={() => setShowModal(true)}
+            className="btn btn-primary inline-flex items-center space-x-2"
+          >
+            <FiPlus />
+            <span>Create First Project</span>
+          </button>
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -45,30 +54,33 @@ const ProjectList = ({ projects }) => {
             <Link
               key={project._id}
               to={`/projects/${project._id}`}
-              className="block"
+              className="block group animate-fade-in"
             >
-              <div className="card hover:shadow-lg transition-shadow">
-                <h3 className="text-xl font-bold text-gray-900 mb-2">
-                  {project.title}
-                </h3>
-                <p className="text-gray-600 mb-4">
-                  {project.description || "No description"}
-                </p>
-                <div className="flex items-center justify-between">
-                  <span className="text-sm text-gray-500">
-                    {project.members?.length || 0} members
-                  </span>
+              <div className="card hover:shadow-2xl transition-all transform hover:-translate-y-1 border border-gray-100">
+                <div className="flex items-start justify-between mb-3">
+                  <h3 className="text-xl font-bold text-gray-900 group-hover:text-primary-600 transition-colors">
+                    {project.title}
+                  </h3>
                   <span
-                    className={`px-3 py-1 rounded-full text-sm font-medium ${
+                    className={`px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wide ${
                       project.status === "active"
-                        ? "bg-green-100 text-green-800"
+                        ? "bg-green-100 text-green-700 border border-green-200"
+                        : project.status === "in-progress"
+                        ? "bg-yellow-100 text-yellow-700 border border-yellow-200"
                         : project.status === "completed"
-                        ? "bg-blue-100 text-blue-800"
-                        : "bg-gray-100 text-gray-800"
+                        ? "bg-blue-100 text-blue-700 border border-blue-200"
+                        : "bg-gray-100 text-gray-700 border border-gray-200"
                     }`}
                   >
                     {project.status}
                   </span>
+                </div>
+                <p className="text-gray-600 mb-4 line-clamp-2">
+                  {project.description || "No description provided"}
+                </p>
+                <div className="flex items-center text-sm text-gray-500 pt-3 border-t border-gray-100">
+                  <FiUsers className="mr-2" />
+                  <span>{project.members?.length || 0} members</span>
                 </div>
               </div>
             </Link>
@@ -78,14 +90,22 @@ const ProjectList = ({ projects }) => {
 
       {/* Create Project Modal */}
       {showModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg p-6 w-full max-w-md">
-            <h3 className="text-2xl font-bold text-gray-900 mb-4">
-              Create New Project
-            </h3>
-            <form onSubmit={handleSubmit} className="space-y-4">
+        <div className="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm flex items-center justify-center z-50 px-4 animate-fade-in">
+          <div className="bg-white rounded-2xl p-8 w-full max-w-md shadow-2xl animate-slide-up">
+            <div className="flex items-center justify-between mb-6">
+              <h3 className="text-2xl font-bold text-gray-900">
+                Create New Project
+              </h3>
+              <button
+                onClick={() => setShowModal(false)}
+                className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+              >
+                <FiX className="w-5 h-5 text-gray-500" />
+              </button>
+            </div>
+            <form onSubmit={handleSubmit} className="space-y-5">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-semibold text-gray-700 mb-2">
                   Project Title
                 </label>
                 <input
@@ -94,13 +114,13 @@ const ProjectList = ({ projects }) => {
                   onChange={(e) =>
                     setFormData({ ...formData, title: e.target.value })
                   }
-                  className="input"
+                  className="input focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all"
                   placeholder="Enter project title"
                   required
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-semibold text-gray-700 mb-2">
                   Description
                 </label>
                 <textarea
@@ -108,19 +128,22 @@ const ProjectList = ({ projects }) => {
                   onChange={(e) =>
                     setFormData({ ...formData, description: e.target.value })
                   }
-                  className="input"
-                  rows="3"
+                  className="input focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all"
+                  rows="4"
                   placeholder="Enter project description"
                 />
               </div>
-              <div className="flex space-x-3">
-                <button type="submit" className="btn btn-primary flex-1">
-                  Create
+              <div className="flex space-x-3 pt-2">
+                <button
+                  type="submit"
+                  className="btn btn-primary flex-1 shadow-lg hover:shadow-xl transform hover:scale-[1.02] transition-all"
+                >
+                  Create Project
                 </button>
                 <button
                   type="button"
                   onClick={() => setShowModal(false)}
-                  className="btn btn-secondary flex-1"
+                  className="btn btn-secondary flex-1 hover:bg-gray-200 transition-colors"
                 >
                   Cancel
                 </button>

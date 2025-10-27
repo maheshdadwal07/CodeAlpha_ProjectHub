@@ -1,7 +1,18 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchComments, createComment, deleteComment } from "@/redux/slices/commentSlice";
-import { FiX, FiSend, FiTrash2, FiUser, FiClock, FiCalendar } from "react-icons/fi";
+import {
+  fetchComments,
+  createComment,
+  deleteComment,
+} from "@/redux/slices/commentSlice";
+import {
+  FiX,
+  FiSend,
+  FiTrash2,
+  FiUser,
+  FiClock,
+  FiCalendar,
+} from "react-icons/fi";
 
 const TaskDetailModal = ({ task, onClose }) => {
   const dispatch = useDispatch();
@@ -95,7 +106,9 @@ const TaskDetailModal = ({ task, onClose }) => {
               <FiUser className="text-gray-400" />
               <div>
                 <p className="text-xs text-gray-500">Assigned To</p>
-                <p className="font-semibold">{task.assignedToName || "Unassigned"}</p>
+                <p className="font-semibold">
+                  {task.assignedToName || "Unassigned"}
+                </p>
               </div>
             </div>
             {task.dueDate && (

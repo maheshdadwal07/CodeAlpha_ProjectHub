@@ -9,7 +9,9 @@ export const fetchComments = createAsyncThunk(
       const response = await api.get(`/comments/${taskId}`);
       return response.data;
     } catch (error) {
-      return rejectWithValue(error.response?.data?.message || "Failed to fetch comments");
+      return rejectWithValue(
+        error.response?.data?.message || "Failed to fetch comments"
+      );
     }
   }
 );
@@ -22,7 +24,9 @@ export const createComment = createAsyncThunk(
       const response = await api.post("/comments", { task: taskId, text });
       return response.data;
     } catch (error) {
-      return rejectWithValue(error.response?.data?.message || "Failed to create comment");
+      return rejectWithValue(
+        error.response?.data?.message || "Failed to create comment"
+      );
     }
   }
 );
@@ -35,7 +39,9 @@ export const deleteComment = createAsyncThunk(
       await api.delete(`/comments/${commentId}`);
       return commentId;
     } catch (error) {
-      return rejectWithValue(error.response?.data?.message || "Failed to delete comment");
+      return rejectWithValue(
+        error.response?.data?.message || "Failed to delete comment"
+      );
     }
   }
 );

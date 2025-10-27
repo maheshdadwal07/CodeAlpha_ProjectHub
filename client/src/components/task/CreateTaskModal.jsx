@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { createTask } from "@/redux/slices/taskSlice";
 import { FiX, FiPlus } from "react-icons/fi";
@@ -6,11 +6,16 @@ import { FiX, FiPlus } from "react-icons/fi";
 const CreateTaskModal = ({ projectId, onClose }) => {
   const dispatch = useDispatch();
   const { isLoading } = useSelector((s) => s.tasks);
+  const { projects } = useSelector((s) => s.projects);
   const [form, setForm] = useState({
     title: "",
     description: "",
     priority: "medium",
+    assignedTo: "",
   });
+
+  // Get current project to access members
+  const currentProject = projects.find((p) => p._id === projectId);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -72,6 +77,24 @@ const CreateTaskModal = ({ projectId, onClose }) => {
               <option value="low">🟢 Low Priority</option>
               <option value="medium">🟡 Medium Priority</option>
               <option value="high">🔴 High Priority</option>
+            </select>
+          </div>
+
+          <div>
+            <label className="block text-sm font-semibold text-gray-700 mb-2">
+              Assign To
+            </label>
+            <select
+              className="input focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all"
+              value={form.assignedTo}
+              onChange={(e) => setForm({ ...form, assignedTo: e.target.value })}
+            >
+              <option value="">👤 Unassigned</option>
+              {currentProject?.members?.map((member) => (
+                <option key={member._id} value={member._id}>
+                  {member.name}
+                </option>
+              ))}
             </select>
           </div>
 

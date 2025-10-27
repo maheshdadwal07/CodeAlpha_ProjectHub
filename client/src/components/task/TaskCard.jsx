@@ -1,7 +1,7 @@
 import React from "react";
 import { FiUser, FiClock } from "react-icons/fi";
 
-const TaskCard = ({ task }) => {
+const TaskCard = ({ task, onClick }) => {
   const priorityStyles = {
     high: "border-l-4 border-red-500 bg-red-50",
     medium: "border-l-4 border-yellow-500 bg-yellow-50",
@@ -18,6 +18,7 @@ const TaskCard = ({ task }) => {
 
   return (
     <div
+      onClick={onClick}
       className={`bg-white rounded-lg shadow-md p-4 mb-3 hover:shadow-xl transition-all transform hover:-translate-y-1 cursor-pointer ${
         priorityStyles[priority] || priorityStyles.medium
       }`}

@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import Navbar from "@/components/layout/Navbar";
 import TaskCard from "@/components/task/TaskCard";
 import CreateTaskModal from "@/components/task/CreateTaskModal";
+import TaskDetailModal from "@/components/task/TaskDetailModal";
 import { fetchTasks } from "@/redux/slices/taskSlice";
 import { fetchProjects } from "@/redux/slices/projectSlice";
 import { FiPlus, FiCheckCircle, FiClock, FiList } from "react-icons/fi";
@@ -14,6 +15,7 @@ const ProjectBoard = () => {
   const { tasks, isLoading } = useSelector((s) => s.tasks);
   const { projects } = useSelector((s) => s.projects);
   const [showCreate, setShowCreate] = useState(false);
+  const [selectedTask, setSelectedTask] = useState(null);
 
   useEffect(() => {
     dispatch(fetchProjects());
@@ -77,7 +79,11 @@ const ProjectBoard = () => {
                   </div>
                 ) : (
                   todoTasks.map((task) => (
-                    <TaskCard key={task._id} task={task} />
+                    <TaskCard
+                      key={task._id}
+                      task={task}
+                      onClick={() => setSelectedTask(task)}
+                    />
                   ))
                 )}
               </div>
@@ -105,7 +111,11 @@ const ProjectBoard = () => {
                   </div>
                 ) : (
                   inProgressTasks.map((task) => (
-                    <TaskCard key={task._id} task={task} />
+                    <TaskCard
+                      key={task._id}
+                      task={task}
+                      onClick={() => setSelectedTask(task)}
+                    />
                   ))
                 )}
               </div>
@@ -131,7 +141,11 @@ const ProjectBoard = () => {
                   </div>
                 ) : (
                   doneTasks.map((task) => (
-                    <TaskCard key={task._id} task={task} />
+                    <TaskCard
+                      key={task._id}
+                      task={task}
+                      onClick={() => setSelectedTask(task)}
+                    />
                   ))
                 )}
               </div>
@@ -142,6 +156,13 @@ const ProjectBoard = () => {
 
       {showCreate && (
         <CreateTaskModal projectId={id} onClose={() => setShowCreate(false)} />
+      )}
+
+      {selectedTask && (
+        <TaskDetailModal
+          task={selectedTask}
+          onClose={() => setSelectedTask(null)}
+        />
       )}
     </div>
   );

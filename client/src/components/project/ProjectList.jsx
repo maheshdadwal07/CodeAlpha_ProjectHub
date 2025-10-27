@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
-import { createProject } from "@/redux/slices/projectSlice";
+import { createProject, fetchProjects } from "@/redux/slices/projectSlice";
 import { FiPlus, FiFolder, FiUsers, FiX } from "react-icons/fi";
 
 const ProjectList = ({ projects }) => {
@@ -11,9 +11,13 @@ const ProjectList = ({ projects }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await dispatch(createProject(formData));
-    setFormData({ title: "", description: "" });
-    setShowModal(false);
+    const result = await dispatch(createProject(formData));
+    if (result.type === "projects/createProject/fulfilled") {
+      // Refresh projects list after successful creation
+      dispatch(fetchProjects());
+      setFormData({ title: "", description: "" });
+      setShowModal(false);
+    }
   };
 
   return (

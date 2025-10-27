@@ -7,8 +7,7 @@ export const register = createAsyncThunk(
   async (userData, { rejectWithValue }) => {
     try {
       const response = await api.post("/auth/register", userData);
-      localStorage.setItem("token", response.data.token);
-      localStorage.setItem("user", JSON.stringify(response.data.user));
+      // Don't save token on registration - user needs to login
       return response.data;
     } catch (error) {
       return rejectWithValue(
@@ -80,9 +79,10 @@ const authSlice = createSlice({
       })
       .addCase(register.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.isAuthenticated = true;
-        state.user = action.payload.user;
-        state.token = action.payload.token;
+        // Don't authenticate on registration - redirect to login
+        state.isAuthenticated = false;
+        state.user = null;
+        state.token = null;
       })
       .addCase(register.rejected, (state, action) => {
         state.isLoading = false;

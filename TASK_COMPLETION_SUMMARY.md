@@ -7,13 +7,15 @@
 #### Required Features ✅
 
 1. **Create Group Projects** ✅
+
    - ✓ Project creation with title & description
-   - ✓ Project listing on dashboard  
+   - ✓ Project listing on dashboard
    - ✓ Project status tracking
    - ✓ Member management
    - ✓ Beautiful card-based UI
 
 2. **Assign Tasks** ✅
+
    - ✓ Task assignment to project members
    - ✓ Member dropdown selection
    - ✓ Priority levels (Low, Medium, High)
@@ -21,6 +23,7 @@
    - ✓ Due date support
 
 3. **Comment and Communicate Within Tasks** ✅
+
    - ✓ Full comment system
    - ✓ Add/view/delete comments
    - ✓ User identification
@@ -28,6 +31,7 @@
    - ✓ Comment count badges
 
 4. **Full Stack with Auth System** ✅
+
    - ✓ User registration & validation
    - ✓ JWT-based login (7-day expiry)
    - ✓ Password hashing (bcrypt)
@@ -35,6 +39,7 @@
    - ✓ Logout functionality
 
 5. **Project Boards** ✅
+
    - ✓ Kanban-style layout
    - ✓ 3 columns (To Do, In Progress, Done)
    - ✓ Task count badges
@@ -42,6 +47,7 @@
    - ✓ Beautiful gradient design
 
 6. **Task Cards** ✅
+
    - ✓ Priority color-coding
    - ✓ Hover effects
    - ✓ Clickable for details
@@ -51,7 +57,7 @@
 7. **Backend Management** ✅
    - ✓ User management
    - ✓ Project CRUD operations
-   - ✓ Task CRUD operations  
+   - ✓ Task CRUD operations
    - ✓ Comment CRUD operations
    - ✓ MongoDB Atlas database
    - ✓ RESTful API design
@@ -61,6 +67,7 @@
 ## 🚀 Technology Stack
 
 ### Backend
+
 - **Runtime**: Node.js v18+
 - **Framework**: Express.js 5.1.0
 - **Database**: MongoDB Atlas
@@ -68,6 +75,7 @@
 - **ODM**: Mongoose 8.19.2
 
 ### Frontend
+
 - **Framework**: React (Vite 7.1.12)
 - **State Management**: Redux Toolkit
 - **Routing**: React Router DOM
@@ -113,6 +121,7 @@ CodeAlpha_ProjectHub/
 ## 🎨 Key Features Implemented
 
 ### Authentication & Security
+
 - JWT token-based authentication
 - Password hashing with bcrypt (10 rounds)
 - Protected API routes
@@ -120,6 +129,7 @@ CodeAlpha_ProjectHub/
 - 7-day token expiry
 
 ### Project Management
+
 - Create, view, update, delete projects
 - Project status tracking
 - Member management
@@ -127,6 +137,7 @@ CodeAlpha_ProjectHub/
 - Beautiful gradient cards
 
 ### Task Management
+
 - Create tasks with title, description, priority
 - **Assign tasks to specific members**
 - Status columns (To Do, In Progress, Done)
@@ -135,6 +146,7 @@ CodeAlpha_ProjectHub/
 - Task count badges per column
 
 ### Comment System ⭐ NEW
+
 - Add comments to any task
 - View all task comments
 - Delete own comments
@@ -143,6 +155,7 @@ CodeAlpha_ProjectHub/
 - Timestamp display
 
 ### UI/UX Excellence
+
 - Custom Tailwind animations (blob, shake, fade-in, slide-up)
 - Animated gradient backgrounds
 - Loading spinners & states
@@ -157,11 +170,13 @@ CodeAlpha_ProjectHub/
 ## 🌐 Live Application
 
 ### URLs
+
 - **Frontend**: http://localhost:5175
 - **Backend**: http://localhost:5000
 - **MongoDB**: Atlas Cloud Database
 
 ### Demo Credentials
+
 ```
 Email: mahesh@test.com
 Password: 123456
@@ -172,11 +187,13 @@ Password: 123456
 ## 📊 Database Models
 
 ### User Model
+
 - name, email, password (hashed)
 - role (default: 'user')
 - createdAt, updatedAt
 
 ### Project Model
+
 - title, description
 - owner (User ref)
 - members (User refs array)
@@ -184,6 +201,7 @@ Password: 123456
 - createdAt, updatedAt
 
 ### Task Model
+
 - title, description
 - project (Project ref)
 - **assignedTo (User ref)** ⭐
@@ -194,12 +212,14 @@ Password: 123456
 - position
 
 ### Comment Model ⭐ NEW
+
 - task (Task ref)
 - user (User ref)
 - text
 - createdAt, updatedAt
 
 ### Notification Model
+
 - user (User ref)
 - type, title, message
 - isRead, relatedProject, relatedTask
@@ -210,6 +230,7 @@ Password: 123456
 ## 🧪 Testing Coverage
 
 ### Manual Testing Completed ✅
+
 1. User registration & login
 2. Project creation & management
 3. Task creation with assignment
@@ -222,6 +243,7 @@ Password: 123456
 10. Dashboard stats calculation
 
 ### Sample Data
+
 - 3 users (Mahesh, Rahul, Priya)
 - 4 projects (E-Commerce, Mobile App, Data Analytics, Blog Platform)
 - 13 tasks distributed across projects
@@ -232,6 +254,7 @@ Password: 123456
 ## 📝 API Endpoints Summary
 
 ### Auth Routes (`/api/auth`)
+
 - POST `/register` - Register user
 - POST `/login` - Login user
 - GET `/me` - Get current user
@@ -240,6 +263,7 @@ Password: 123456
 - PUT `/updatepassword` - Change password
 
 ### Project Routes (`/api/projects`)
+
 - GET `/` - Get all projects
 - POST `/` - Create project
 - GET `/:id` - Get project by ID
@@ -248,6 +272,7 @@ Password: 123456
 - POST `/:id/members` - Add member
 
 ### Task Routes (`/api/tasks`)
+
 - GET `/:projectId` - Get tasks by project
 - POST `/` - Create task
 - GET `/task/:id` - Get task by ID
@@ -256,12 +281,14 @@ Password: 123456
 - PATCH `/:id/status` - Update status
 
 ### Comment Routes (`/api/comments`) ⭐ NEW
+
 - GET `/:taskId` - Get task comments
 - POST `/` - Create comment
 - PUT `/:id` - Update comment
 - DELETE `/:id` - Delete comment
 
 ### Notification Routes (`/api/notifications`)
+
 - GET `/` - Get user notifications
 - PUT `/:id/read` - Mark as read
 
@@ -273,13 +300,14 @@ Password: 123456
    - MongoDB models & controllers
    - Authentication system
    - API routes
-   
 2. **Day 4**: Frontend foundation
+
    - React setup with Vite
    - Redux slices (auth, projects)
    - Auth pages & dashboard
 
 3. **Day 5**: Task management
+
    - Task slice & components
    - Kanban board layout
    - Task creation modal
@@ -325,9 +353,10 @@ The application successfully implements a **collaborative project management too
 ✅ Beautiful Kanban project boards  
 ✅ Feature-rich task cards  
 ✅ Complete backend API  
-✅ Professional UI/UX  
+✅ Professional UI/UX
 
 **Bonus Features:**
+
 - Notification system (backend ready)
 - Priority color coding
 - Stats dashboard

@@ -45,7 +45,8 @@ const Register = () => {
     );
 
     if (result.type === "auth/register/fulfilled") {
-      navigate("/dashboard");
+      // Redirect to login page after successful registration
+      navigate("/login");
     }
   };
 

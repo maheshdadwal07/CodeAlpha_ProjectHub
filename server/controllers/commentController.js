@@ -3,6 +3,8 @@ import ErrorResponse from "../utils/errorResponse.js";
 import Comment from "../models/Comment.js";
 import Task from "../models/Task.js";
 import Project from "../models/Project.js";
+import { createNotification } from "./notificationController.js";
+import { emitNewComment } from "../config/socket.js";
 
 // @desc Get comments for a task
 // @route GET /api/comments/:taskId
@@ -53,6 +55,46 @@ export const createComment = asyncHandler(async (req, res, next) => {
     task: taskId,
     user: req.user._id,
   });
+
+  await comment.populate("user", "name email avatar");
+
+  // Notify task assignee about new comment
+  if (
+    task.assignedTo &&
+    task.assignedTo.toString() !== req.user._id.toString()
+  ) {
+    await createNotification(
+      task.assignedTo,
+      "comment_added",
+      `${req.user.name} commented on your task: ${task.title}`,
+      {
+        taskId: task._id,
+        projectId: project._id,
+        link: `/project/${project._id}`,
+      }
+    );
+  }
+
+  // Notify task creator if different from commenter and assignee
+  if (
+    task.createdBy &&
+    task.createdBy.toString() !== req.user._id.toString() &&
+    task.createdBy.toString() !== task.assignedTo?.toString()
+  ) {
+    await createNotification(
+      task.createdBy,
+      "comment_added",
+      `${req.user.name} commented on task: ${task.title}`,
+      {
+        taskId: task._id,
+        projectId: project._id,
+        link: `/project/${project._id}`,
+      }
+    );
+  }
+
+  // Emit real-time comment to project room
+  emitNewComment(project._id.toString(), comment);
 
   res.status(201).json({ success: true, comment });
 });

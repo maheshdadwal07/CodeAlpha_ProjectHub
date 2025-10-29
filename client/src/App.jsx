@@ -1,7 +1,10 @@
 import { useEffect } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { getMe } from "@/redux/slices/authSlice";
+import { SocketProvider } from "@/context/SocketContext";
 
 // Pages
 import Login from "@/pages/Login";
@@ -24,41 +27,57 @@ function App() {
   }, [dispatch]);
 
   return (
-    <Routes>
-      {/* Public Routes */}
-      <Route
-        path="/login"
-        element={isAuthenticated ? <Navigate to="/dashboard" /> : <Login />}
+    <SocketProvider>
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
       />
-      <Route
-        path="/register"
-        element={isAuthenticated ? <Navigate to="/dashboard" /> : <Register />}
-      />
+      <Routes>
+        {/* Public Routes */}
+        <Route
+          path="/login"
+          element={isAuthenticated ? <Navigate to="/dashboard" /> : <Login />}
+        />
+        <Route
+          path="/register"
+          element={
+            isAuthenticated ? <Navigate to="/dashboard" /> : <Register />
+          }
+        />
 
-      {/* Protected Routes */}
-      <Route
-        path="/dashboard"
-        element={
-          <ProtectedRoute>
-            <Dashboard />
-          </ProtectedRoute>
-        }
-      />
-      <Route
-        path="/projects/:id"
-        element={
-          <ProtectedRoute>
-            <ProjectBoard />
-          </ProtectedRoute>
-        }
-      />
+        {/* Protected Routes */}
+        <Route
+          path="/dashboard"
+          element={
+            <ProtectedRoute>
+              <Dashboard />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/projects/:id"
+          element={
+            <ProtectedRoute>
+              <ProjectBoard />
+            </ProtectedRoute>
+          }
+        />
 
-      {/* Default Route */}
-      <Route
-        path="/"
-        element={<Navigate to={isAuthenticated ? "/dashboard" : "/login"} />}
-      />
-    </Routes>
+        {/* Default Route */}
+        <Route
+          path="/"
+          element={<Navigate to={isAuthenticated ? "/dashboard" : "/login"} />}
+        />
+      </Routes>
+    </SocketProvider>
   );
 }
 

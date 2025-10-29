@@ -145,3 +145,15 @@ const sendTokenResponse = (user, statusCode, res) => {
     user,
   });
 };
+
+// @desc    Get all users
+// @route   GET /api/auth/users
+// @access  Private
+export const getAllUsers = asyncHandler(async (req, res, next) => {
+  const users = await User.find().select("name email");
+
+  res.status(200).json({
+    success: true,
+    users,
+  });
+});

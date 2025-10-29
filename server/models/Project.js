@@ -32,6 +32,7 @@ const ProjectSchema = new mongoose.Schema(
   },
   {
     timestamps: true,
+    strict: false, // This allows extra fields and ignores validation for undefined fields
   }
 );
 

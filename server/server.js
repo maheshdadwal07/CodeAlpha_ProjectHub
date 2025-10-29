@@ -1,8 +1,10 @@
 import express from "express";
 import dotenv from "dotenv";
 import cors from "cors";
+import { createServer } from "http";
 import connectDB from "./config/db.js";
 import errorHandler from "./middleware/error.js";
+import { initSocket } from "./config/socket.js";
 
 // Route files
 import authRoutes from "./routes/auth.js";
@@ -16,6 +18,7 @@ dotenv.config();
 
 // Initialize express app
 const app = express();
+const httpServer = createServer(app);
 
 // Body parser middleware
 app.use(express.json());
@@ -24,7 +27,12 @@ app.use(express.urlencoded({ extended: true }));
 // Enable CORS
 app.use(
   cors({
-    origin: process.env.CLIENT_URL || "http://localhost:5173",
+    origin: [
+      "http://localhost:5173",
+      "http://localhost:5174",
+      "http://localhost:5175",
+      process.env.CLIENT_URL
+    ].filter(Boolean),
     credentials: true,
   })
 );
@@ -62,12 +70,17 @@ const startServer = async () => {
     // Connect to database first
     await connectDB();
 
+    // Initialize Socket.io
+    initSocket(httpServer);
+    console.log("🔌 Socket.io initialized");
+
     // Start server
     const PORT = process.env.PORT || 5000;
-    const server = app.listen(PORT, () => {
+    httpServer.listen(PORT, () => {
       console.log("🚀 ===================================");
       console.log(`🚀 Server running in ${process.env.NODE_ENV} mode`);
       console.log(`🚀 Server running on port ${PORT}`);
+      console.log("🚀 WebSocket ready for real-time updates");
       console.log("🚀 ===================================");
     });
 
@@ -75,7 +88,7 @@ const startServer = async () => {
     process.on("unhandledRejection", (err, promise) => {
       console.log(`❌ Error: ${err.message}`);
       // Close server & exit process
-      server.close(() => process.exit(1));
+      httpServer.close(() => process.exit(1));
     });
   } catch (error) {
     console.error("❌ Failed to start server:", error);

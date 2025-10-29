@@ -6,9 +6,12 @@ export const fetchProjects = createAsyncThunk(
   "projects/fetchProjects",
   async (_, { rejectWithValue }) => {
     try {
+      console.log("🔍 Fetching projects...");
       const response = await api.get("/projects");
+      console.log("✅ Projects fetched:", response.data.projects?.length || 0);
       return response.data.projects;
     } catch (error) {
+      console.error("❌ Fetch projects error:", error.response?.data || error);
       return rejectWithValue(
         error.response?.data?.error || "Failed to fetch projects"
       );
@@ -21,9 +24,15 @@ export const createProject = createAsyncThunk(
   "projects/createProject",
   async (projectData, { rejectWithValue }) => {
     try {
+      console.log("🚀 Sending create project request:", projectData);
       const response = await api.post("/projects", projectData);
+      console.log("✅ Server response:", response.data);
       return response.data.project;
     } catch (error) {
+      console.error(
+        "❌ Create project API error:",
+        error.response?.data || error
+      );
       return rejectWithValue(
         error.response?.data?.error || "Failed to create project"
       );
@@ -94,8 +103,18 @@ const projectSlice = createSlice({
         state.error = action.payload;
       })
       // Create project
+      .addCase(createProject.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
+      })
       .addCase(createProject.fulfilled, (state, action) => {
-        state.projects.push(action.payload);
+        state.isLoading = false;
+        // Add new project to the beginning of the array (most recent first)
+        state.projects = [action.payload, ...state.projects];
+      })
+      .addCase(createProject.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload;
       })
       // Update project
       .addCase(updateProject.fulfilled, (state, action) => {

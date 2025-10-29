@@ -2,6 +2,8 @@ import asyncHandler from "../utils/asyncHandler.js";
 import ErrorResponse from "../utils/errorResponse.js";
 import Task from "../models/Task.js";
 import Project from "../models/Project.js";
+import { createNotification } from "./notificationController.js";
+import { emitTaskUpdate } from "../config/socket.js";
 
 // @desc Create new task
 // @route POST /api/tasks
@@ -43,6 +45,28 @@ export const createTask = asyncHandler(async (req, res, next) => {
     priority: priority || "medium",
   });
 
+  // Populate the task before sending response
+  await task.populate("assignedTo", "name email");
+  await task.populate("createdBy", "name email");
+
+  // Send notification if task is assigned
+  if (assignedTo && assignedTo !== req.user._id.toString()) {
+    await createNotification(
+      assignedTo,
+      "task_assigned",
+      `You have been assigned to task: ${title}`,
+      {
+        taskId: task._id,
+        projectId: project._id,
+        link: `/project/${project._id}`,
+      }
+    );
+  }
+
+  // Emit real-time update to project room
+  emitTaskUpdate(projectId, task);
+
+  console.log("✅ Task created:", task);
   res.status(201).json({ success: true, task });
 });
 
@@ -127,12 +151,40 @@ export const updateTask = asyncHandler(async (req, res, next) => {
     position,
   }))(req.body);
 
+  // Store old assignedTo before updating
+  const oldAssignedTo = task.assignedTo?.toString();
+
   Object.keys(updates).forEach((key) => {
     if (updates[key] !== undefined) task[key] = updates[key];
   });
 
   await task.save();
 
+  // Populate the task before sending response
+  await task.populate("assignedTo", "name email");
+  await task.populate("createdBy", "name email");
+
+  // Send notification if task is reassigned to a different user
+  const newAssignedTo = task.assignedTo?._id?.toString();
+  if (
+    newAssignedTo &&
+    newAssignedTo !== req.user._id.toString() &&
+    oldAssignedTo !== newAssignedTo
+  ) {
+    await createNotification(
+      newAssignedTo,
+      "task_assigned",
+      `You have been assigned to task: ${task.title}`,
+      {
+        taskId: task._id,
+        projectId: project._id,
+        link: `/projects/${project._id}`,
+      }
+    );
+    console.log("📧 Notification sent for task reassignment");
+  }
+
+  console.log("✅ Task updated:", task);
   res.status(200).json({ success: true, task });
 });
 
@@ -155,6 +207,11 @@ export const updateTaskStatus = asyncHandler(async (req, res, next) => {
   if (status) task.status = status;
   await task.save();
 
+  // Populate the task before sending response
+  await task.populate("assignedTo", "name email");
+  await task.populate("createdBy", "name email");
+
+  console.log("✅ Task status updated:", task);
   res.status(200).json({ success: true, task });
 });
 
@@ -173,7 +230,8 @@ export const deleteTask = asyncHandler(async (req, res, next) => {
   if (!isMember)
     return next(new ErrorResponse("Not authorized to delete this task", 403));
 
-  await task.remove();
+  await task.deleteOne();
 
+  console.log("✅ Task deleted:", task._id);
   res.status(200).json({ success: true, message: "Task deleted" });
 });
